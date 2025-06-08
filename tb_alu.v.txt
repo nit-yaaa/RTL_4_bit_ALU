@@ -1,0 +1,46 @@
+// Testbench:
+`timescale 1ns / 1ps
+
+module tb_alu_4bit();
+    logic [3:0] A, B;
+    logic [2:0] opcode;
+    logic [3:0] result;
+    logic carry_out, zero;
+
+    // Instantiate ALU
+    alu_4bit dut (
+        .A(A), 
+        .B(B), 
+        .opcode(opcode), 
+        .result(result), 
+        .carry_out(carry_out), 
+        .zero(zero)
+    );
+
+    initial begin
+        $dumpfile("dump.vcd");             // Required for waveform
+        $dumpvars(1, tb_alu_4bit);         // Dump all variables in testbench scope
+
+        $display("Time\tA\tB\tOp\tResult\tCarry\tZero");
+
+        A = 4'b0011; B = 4'b0001; opcode = 3'b000; #10;
+        $display("%0t\t%b\t%b\t%b\t%b\t%b\t%b", $time, A, B, opcode, result, carry_out, zero);
+
+        A = 4'b0100; B = 4'b0011; opcode = 3'b001; #10;
+        $display("%0t\t%b\t%b\t%b\t%b\t%b\t%b", $time, A, B, opcode, result, carry_out, zero);
+
+        A = 4'b1010; B = 4'b1100; opcode = 3'b010; #10;
+        $display("%0t\t%b\t%b\t%b\t%b\t%b\t%b", $time, A, B, opcode, result, carry_out, zero);
+
+        A = 4'b1010; B = 4'b1100; opcode = 3'b011; #10;
+        $display("%0t\t%b\t%b\t%b\t%b\t%b\t%b", $time, A, B, opcode, result, carry_out, zero);
+
+        A = 4'b1010; B = 4'b0000; opcode = 3'b100; #10;
+        $display("%0t\t%b\t%b\t%b\t%b\t%b\t%b", $time, A, B, opcode, result, carry_out, zero);
+
+        A = 4'b1010; B = 4'b1100; opcode = 3'b101; #10;
+        $display("%0t\t%b\t%b\t%b\t%b\t%b\t%b", $time, A, B, opcode, result, carry_out, zero);
+
+        $finish;
+    end
+endmodule
